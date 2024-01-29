@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8217D4F92B679BCC00A1FF86 /* PlannerQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8217D4F82B679BCC00A1FF86 /* PlannerQuestionView.swift */; };
+		8217D4FB2B67B98D00A1FF86 /* PlannerSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8217D4FA2B67B98D00A1FF86 /* PlannerSliderView.swift */; };
 		82E0D08C2B63A49E00FF201B /* TestElementsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E0D08B2B63A49E00FF201B /* TestElementsApp.swift */; };
 		82E0D08E2B63A49E00FF201B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E0D08D2B63A49E00FF201B /* ContentView.swift */; };
 		82E0D0902B63A49F00FF201B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82E0D08F2B63A49F00FF201B /* Assets.xcassets */; };
@@ -34,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8217D4F82B679BCC00A1FF86 /* PlannerQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerQuestionView.swift; sourceTree = "<group>"; };
+		8217D4FA2B67B98D00A1FF86 /* PlannerSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerSliderView.swift; sourceTree = "<group>"; };
 		82E0D0882B63A49E00FF201B /* TestElements.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestElements.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82E0D08B2B63A49E00FF201B /* TestElementsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestElementsApp.swift; sourceTree = "<group>"; };
 		82E0D08D2B63A49E00FF201B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -96,6 +100,8 @@
 			children = (
 				82E0D08B2B63A49E00FF201B /* TestElementsApp.swift */,
 				82E0D08D2B63A49E00FF201B /* ContentView.swift */,
+				8217D4F82B679BCC00A1FF86 /* PlannerQuestionView.swift */,
+				8217D4FA2B67B98D00A1FF86 /* PlannerSliderView.swift */,
 				82E0D08F2B63A49F00FF201B /* Assets.xcassets */,
 				82E0D0912B63A49F00FF201B /* Preview Content */,
 			);
@@ -257,6 +263,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8217D4FB2B67B98D00A1FF86 /* PlannerSliderView.swift in Sources */,
+				8217D4F92B679BCC00A1FF86 /* PlannerQuestionView.swift in Sources */,
 				82E0D08E2B63A49E00FF201B /* ContentView.swift in Sources */,
 				82E0D08C2B63A49E00FF201B /* TestElementsApp.swift in Sources */,
 			);
