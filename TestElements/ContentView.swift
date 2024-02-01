@@ -1,70 +1,80 @@
 import SwiftUI
 
-struct OptionToggle: View {
-    var toggleRadius: Double
-    var id = UUID()
-    @Binding var isOn: Bool
+extension AnyTransition {
+    static var pushFromRight: AnyTransition {
+        let insertion = AnyTransition.move(edge: .trailing)
+            .combined(with: .opacity)
+        let removal = AnyTransition.move(edge: .leading)
+            .combined(with: .opacity)
+        return .asymmetric(insertion: insertion, removal: removal)
+    }
+    
+    static var pushFromLeft: AnyTransition {
+        let insertion = AnyTransition.move(edge: .leading)
+            .combined(with: .opacity)
+        let removal = AnyTransition.move(edge: .trailing)
+            .combined(with: .opacity)
+        return .asymmetric(insertion: insertion, removal: removal)
+    }
+}
+
+
+struct ContentView: View {
+    @StateObject var plannerData = TrainingPlannerData()
+    @State private var currentPageIndex: Int = 0
+    
+    @State private var pageTransition: AnyTransition = .pushFromLeft
+    
+    private var done: () -> Void {
+        {  guard currentPageIndex < plannerData.questions.count - 1 else { return }
+            currentPageIndex = currentPageIndex + 1
+            pageTransition = .pushFromRight}
+    }
+    
+    private var back: () -> Void {
+        {  guard currentPageIndex > 0 else { return }
+            currentPageIndex = currentPageIndex - 1
+            pageTransition = .pushFromLeft }
+    }
     
     var body: some View {
-        Circle()
-            .frame(width: toggleRadius, height: toggleRadius)
-            .foregroundColor(isOn ? .blue : .gray)
-            .onTapGesture {
-                isOn.toggle()
-            }
+        let thisPageQuestion: any TrainingPlannerQuestion = plannerData.questions[currentPageIndex]
         
-    }
-}
-
-struct Day {
-    let name: String
-    let abbreviation: String
-}
-
-class MultiOptionModel: ObservableObject {
-    @Published var options: [Bool]
-    
-    init(numberOfOptions: Int) {
-        options = Array(repeating: false, count: numberOfOptions)
-    }
-}
-
-struct OptionView: View {
-    static let numberOfOptions: Int = 7
-    @StateObject var model = MultiOptionModel(numberOfOptions: OptionView.numberOfOptions)
-    
-    
-    var body: some View {
-        HStack {
-            ForEach(0..<model.options.count, id: \.self) { index in
-                VStack {
-                    OptionToggle(toggleRadius: 20, isOn: $model.options[index])
-                    Text(weekDay(index, forFirstDay: 2))
-                        .foregroundColor(model.options[index] ? .green : .gray)
-                }
+        Group{
+            if thisPageQuestion is MultiAnswerQuestion {
+                PlannerMultiAnswerPage(question: Binding(
+                    get: { plannerData.questions[currentPageIndex] as! MultiAnswerQuestion},
+                    set: { newQuestion in plannerData.questions[currentPageIndex] = newQuestion }),
+                                       back: currentPageIndex > 0 ? back : nil,
+                                       done: currentPageIndex < plannerData.questions.count - 1 ? done : nil)
+            }
+            if thisPageQuestion is SingleAnswerQuestion {
+                PlannerSingleAnswerPage(question: Binding(
+                    get: { plannerData.questions[currentPageIndex] as! SingleAnswerQuestion},
+                    set: { newQuestion in plannerData.questions[currentPageIndex] = newQuestion }),
+                                        back: currentPageIndex > 0 ? back : nil,
+                                        done: currentPageIndex < plannerData.questions.count - 1 ? done : nil)
+            }
+        }.id(currentPageIndex)
+        .transition(pageTransition)
+        .animation(.default, value: currentPageIndex)
+        
+        
+        ForEach(plannerData.questions, id: \.id) { question in
+            if question is MultiAnswerQuestion {
+                let thisQuestion = question as! MultiAnswerQuestion
+                Text("Multiquestion \(thisQuestion.id) selected: \(thisQuestion.idsSelected.joined(separator: ", "))")
+            }
+            if question is SingleAnswerQuestion {
+                let thisQuestion = question as! SingleAnswerQuestion
+                Text("Single question \(thisQuestion.id) selected: \(thisQuestion.idSelected ?? "")")
             }
         }
-        .padding()
-    }
-    
-    func weekDay(_ index: Int, forFirstDay firstDay: Int) -> String {
-        guard 1...7 ~= firstDay else { return "" }
-        guard 0...6 ~= index else { return "" }
-        
-        return Calendar.current.veryShortWeekdaySymbols[(firstDay + index - 1) % 7]
-    }
-    
-    static func week(forFirstDay firstDay: Int) -> [String] {
-        guard 1...7 ~= firstDay else { return [] }
-        
-        let indeces = (0..<7 ).map { (firstDay + $0 - 1) % 7 }
-        
-        let weekArray = indeces.compactMap { Calendar.current.veryShortWeekdaySymbols[$0] }
-        
-        return weekArray.count == 7 ? weekArray : []
+        Spacer()
     }
 }
+    
 
 #Preview {
-    OptionView()
+    ContentView()
 }

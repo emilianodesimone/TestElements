@@ -1,34 +1,54 @@
 import SwiftUI
 
 struct PlannerSingleAnswerPage: View {
-    @StateObject var plannerData = TrainingPlannerData()
+    @Binding var question: SingleAnswerQuestion
+    var back: (() -> Void)?
+    var done: (() -> Void)?
     
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
-                if let coachText = plannerData.multiAnswerQuestion.coachText {
+                if let back {
+                    Button(action: back)
+                    {
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(.blue)
+                            .padding()
+                            .contentShape(Rectangle())
+                    }
+                }
+                if let coachText = question.coachText {
                     PlannerCoachView(text: coachText)
                 }
                 VStack(alignment: .leading, spacing: 0){
                     
-                    Text(plannerData.singleAnswerQuestion.question)
+                    Text(question.question)
                         .font(.headline)
-                    if let subtitle = plannerData.singleAnswerQuestion.subtitle { Text(subtitle).font(.subheadline) }
+                    if let subtitle = question.subtitle { Text(subtitle).font(.subheadline) }
                     
                 }.padding()
-                ForEach($plannerData.singleAnswerQuestion.answers, id: \.self) { $answer in
+                ForEach($question.answers, id: \.self) { $answer in
                     PlannerSingleAnswerCell(answer: answer.answer,
                                             isSelected: answer.isSelected)
                     .onTapGesture {
-                        for i in  plannerData.singleAnswerQuestion.answers.indices {
-                            plannerData.singleAnswerQuestion.answers[i].isSelected = false
+                        for i in  question.answers.indices {
+                            question.answers[i].isSelected = false
                         }
                         answer.isSelected = true
                     }
                     Divider()
                 }
             }
-            Text("Ids selected: \(plannerData.singleAnswerQuestion.idSelected ?? "")")
+            if let done {
+                Button(action: {done()}, label: {
+                    Text("Continue")
+                        .frame(width: 343, height: 48, alignment: .center)
+                        .background(.blue)
+                        .foregroundColor(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 6))
+                    
+                })
+            }
             Spacer()
         }
     }
@@ -48,9 +68,11 @@ struct PlannerSingleAnswerCell: View {
         }.padding()
     }
 }
-#Preview {
-    PlannerSingleAnswerPage()
-}
+//#Preview {
+//    @StateObject var model = TrainingPlannerData()
+//    
+//    return PlannerSingleAnswerPage(question: $model.singleAnswerQuestionExample)
+//}
 
 struct RadioButton: View {
     var isSelected: Bool

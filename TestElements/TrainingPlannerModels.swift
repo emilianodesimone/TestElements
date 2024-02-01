@@ -3,8 +3,10 @@ import SwiftUI
 
 class TrainingPlannerData: ObservableObject {
     
-    @Published var multiAnswerQuestion = MultiAnswerQuestion(coachText: "Hi! I am Suunto Coach, Your personal AI Assistant. I will help you to develop a personalized training program for you.",
-                                                             question: "What is that you want to achieve?", 
+    @Published var questions: [any TrainingPlannerQuestion] = [multiAnswerQuestionExample, singleAnswerQuestionExample, multiAnswerQuestion2Example]
+    
+    static var multiAnswerQuestionExample = MultiAnswerQuestion(id: "Multi", coachText: "Hi! I am Suunto Coach, Your personal AI Assistant. I will help you to develop a personalized training program for you.",
+                                                             question: "What is that you want to achieve?",
                                                              subtitle: "You can choose multiple",
                                                              answers: [
                                                                 PlannerAnswer(id: "1", answer: "I want to keep fit", isSelected: false),
@@ -13,7 +15,7 @@ class TrainingPlannerData: ObservableObject {
                                                                 PlannerAnswer(id: "4", answer: "Enhance endurance", isSelected: false)
                                                              ])
     
-    @Published var singleAnswerQuestion = SingleAnswerQuestion(coachText: "Hi! I am Suunto Coach, Your personal AI Assistant. I will help you to develop a personalized training program for you.",
+    static var singleAnswerQuestionExample = SingleAnswerQuestion(id: "Single1", coachText: "Hi! I am Suunto Coach, Your personal AI Assistant. I will help you to develop a personalized training program for you.",
                                                                question: "Which is the day of your biggest effort?",
                                                                subtitle: "You can choose one (1)",
                                                                answers: [ PlannerAnswer(id: "5", answer: "Monday", isSelected: false),
@@ -24,6 +26,26 @@ class TrainingPlannerData: ObservableObject {
                                                                           PlannerAnswer(id: "10", answer: "Saturday", isSelected: false),
                                                                           PlannerAnswer(id: "11", answer: "Sunday", isSelected: false),
                                                                         ])
+    static var multiAnswerQuestion2Example = SingleAnswerQuestion(id: "Single2", coachText: "Hi! I am Suunto Coach, Your personal AI Assistant. I will help you to develop a personalized training program for you.",
+                                                             question: "What is that you want to achieve?",
+                                                             subtitle: "You can choose multiple",
+                                                             answers: [
+                                                                PlannerAnswer(id: "1", answer: "I want to keep fit", isSelected: false),
+                                                                PlannerAnswer(id: "2", answer: "Build up my cardio training", isSelected: false),
+                                                                PlannerAnswer(id: "3", answer: "Enhance endurance", isSelected: false),
+                                                                PlannerAnswer(id: "4", answer: "Enhance endurance", isSelected: false)
+                                                             ])
+    
+    static func trainingPlannerQuestionType(from questionType: TrainingPlannerQuestionType) -> any TrainingPlannerQuestion.Type {
+        switch questionType {
+        case .multiAnswer:
+            return MultiAnswerQuestion.self
+        case .singleAnswer:
+            return SingleAnswerQuestion.self
+        case .spinner:
+            return SpinnerQuestion.self
+        }
+    }
 }
 
 struct PlannerAnswer: Hashable {
@@ -32,7 +54,21 @@ struct PlannerAnswer: Hashable {
     var isSelected : Bool
 }
 
-struct MultiAnswerQuestion {
+enum TrainingPlannerQuestionType {
+    case singleAnswer
+    case multiAnswer
+    case spinner
+}
+
+
+protocol TrainingPlannerQuestion: Identifiable {
+    static var type: TrainingPlannerQuestionType { get }
+    var id: String { get }
+}
+
+struct MultiAnswerQuestion: TrainingPlannerQuestion {
+    static var type = TrainingPlannerQuestionType.multiAnswer
+    var id: String
     var coachText: String?
     var question: String
     var subtitle: String?
@@ -42,7 +78,9 @@ struct MultiAnswerQuestion {
     }
 }
 
-struct SingleAnswerQuestion {
+struct SingleAnswerQuestion: TrainingPlannerQuestion {
+    static var type = TrainingPlannerQuestionType.singleAnswer
+    var id: String
     var coachText: String?
     var question: String
     var subtitle: String?
@@ -50,6 +88,9 @@ struct SingleAnswerQuestion {
     var idSelected: String? {
         answers.first(where: {$0.isSelected})?.id
     }
-    
-    
+}
+
+struct SpinnerQuestion: TrainingPlannerQuestion {
+    static var type = TrainingPlannerQuestionType.spinner
+    var id: String
 }
