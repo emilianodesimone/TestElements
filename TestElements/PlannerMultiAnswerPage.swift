@@ -11,7 +11,7 @@ struct PlannerMultiAnswerPage: View {
                 if let back {
                     Button(action: back)
                     {
-                        Image(systemName: "chevron.left")
+                        Image("icon-chevron-left")
                             .foregroundColor(.blue)
                             .padding()
                             .contentShape(Rectangle())
