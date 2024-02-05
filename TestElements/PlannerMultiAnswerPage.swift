@@ -2,21 +2,10 @@ import SwiftUI
 
 struct PlannerMultiAnswerPage: View {
     @Binding var question: MultiAnswerQuestion
-    var back: (() -> Void)?
-    var done: (() -> Void)?
     
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
-                if let back {
-                    Button(action: back)
-                    {
-                        Image("icon-chevron-left")
-                            .foregroundColor(.blue)
-                            .padding()
-                            .contentShape(Rectangle())
-                    }
-                }
                 if let coachText = question.coachText {
                     PlannerCoachView(text: coachText)
                 }
@@ -32,16 +21,6 @@ struct PlannerMultiAnswerPage: View {
                     Divider()
                 }
                  
-            }
-            if let done {
-                Button(action: {done()}, label: {
-                    Text("Continue")
-                        .frame(width: 343, height: 48, alignment: .center)
-                        .background(.blue)
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 6))
-                    
-                })
             }
         }
         
@@ -61,17 +40,14 @@ struct PlannerMultiAnswerCell: View {
                     .font(.callout)
             }
             Spacer()
-                    Image("icon-checkmark-circled")
-                        .renderingMode(.template)
-                        .resizable()
-                        .frame(width: 32, height: 32)
-                        .foregroundColor(.green)
-                        .overlay(
-                            Group{ if !isSelected { Circle()
-                                    .frame(width: 26.6, height: 26.6)
-                                .foregroundColor(.gray) }
-                                
-            })
+            Image(systemName: isSelected ? "checkmark" : "")
+              .resizable()
+              .frame(width: 9, height: 9)
+              .foregroundColor(.white)
+              .padding(5)
+              .background(isSelected ? .green : .gray)
+              .clipShape(Circle())
+                        
             .onTapGesture {
                 withAnimation {
                     isSelected.toggle()
@@ -90,5 +66,5 @@ struct PlannerMultiAnswerCell: View {
                                                                             PlannerAnswer(id: "2", answer: "Build up my cardio training", isSelected: false),
                                                                             PlannerAnswer(id: "3", answer: "Enhance endurance", isSelected: false),
                                                                             PlannerAnswer(id: "4", answer: "Enhance endurance", isSelected: false)
-                                                                          ])), back: {}, done: {})
+                                                                          ])))
 }

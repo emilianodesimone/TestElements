@@ -2,21 +2,10 @@ import SwiftUI
 
 struct PlannerSingleAnswerPage: View {
     @Binding var question: SingleAnswerQuestion
-    var back: (() -> Void)?
-    var done: (() -> Void)?
     
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
-                if let back {
-                    Button(action: back)
-                    {
-                        Image("icon-chevron-left")
-                            .foregroundColor(.blue)
-                            .padding()
-                            .contentShape(Rectangle())
-                    }
-                }
                 if let coachText = question.coachText {
                     PlannerCoachView(text: coachText)
                 }
@@ -38,16 +27,6 @@ struct PlannerSingleAnswerPage: View {
                     }
                     Divider()
                 }
-            }
-            if let done {
-                Button(action: {done()}, label: {
-                    Text("Continue")
-                        .frame(width: 343, height: 48, alignment: .center)
-                        .background(.blue)
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 6))
-                    
-                })
             }
             Spacer()
         }
