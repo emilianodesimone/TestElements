@@ -1,24 +1,5 @@
 import SwiftUI
 
-extension AnyTransition {
-    static var pushFromRight: AnyTransition {
-        let insertion = AnyTransition.move(edge: .trailing)
-            .combined(with: .opacity)
-        let removal = AnyTransition.move(edge: .leading)
-            .combined(with: .opacity)
-        return .asymmetric(insertion: insertion, removal: removal)
-    }
-    
-    static var pushFromLeft: AnyTransition {
-        let insertion = AnyTransition.move(edge: .leading)
-            .combined(with: .opacity)
-        let removal = AnyTransition.move(edge: .trailing)
-            .combined(with: .opacity)
-        return .asymmetric(insertion: insertion, removal: removal)
-    }
-}
-
-
 struct ContentView: View {
     @StateObject var plannerData = TrainingPlannerData()
     @State private var currentPageIndex: Int = 0
@@ -56,7 +37,6 @@ struct ContentView: View {
     }
     
     var body: some View {
-        
         VStack(alignment: .leading){
             QuestionsProgressBar(totalNumberOfQuestions: plannerData.questions.count, currentQuestion: currentPageIndex + 1, back: back)
             Group{
@@ -82,7 +62,9 @@ struct ContentView: View {
                 Spacer()
                 VStack(alignment: .leading){
                     ForEach(plannerData.questions, id: \.id) { question in
+                        if let question = question as? TrainingQuestionWithAnswers {
                             Text("\(question.id) answers: \(question.idsSelected.joined(separator: ", "))")
+                        }
                     }
                 }.font(.footnote)
                 .padding()

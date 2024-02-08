@@ -2,7 +2,7 @@ import SwiftUI
 
 
 struct PlannerSingleAnswerCell: View {
-    @Binding var answer: PlannerAnswer
+    var answer: PlannerAnswer
     
     var body: some View {
         HStack(alignment: .center){

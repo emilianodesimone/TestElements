@@ -3,9 +3,9 @@ import SwiftUI
 
 class TrainingPlannerData: ObservableObject {
     
-    @Published var questions: [TrainingPlannerQuestion] = [multiAnswerQuestionExample, singleAnswerQuestionExample, singleAnswerQuestion2Example, multiAnswerQuestion2Example]
+    @Published var questions: [TrainingPlannerEntry] = [multiAnswerQuestionExample, singleAnswerQuestionExample, singleAnswerQuestion2Example, multiAnswerQuestion2Example, dateQuestion1Example, distanceQUestion1Example]
     
-    static var multiAnswerQuestionExample = TrainingPlannerQuestion(id: "MQ1", type: .multiAnswer, coachText: "Hi! I am Suunto Coach, Your personal AI Assistant. I will help you to develop a personalized training program for you.",
+    static var multiAnswerQuestionExample = TrainingQuestionWithAnswers(id: "MQ1", type: .multiAnswer, coachText: "Hi! I am Suunto Coach, Your personal AI Assistant. I will help you to develop a personalized training program for you.",
                                                              question: "What is that you want to achieve?",
                                                              subtitle: "You can choose multiple",
                                                              answers: [
@@ -15,7 +15,7 @@ class TrainingPlannerData: ObservableObject {
                                                                 PlannerAnswer(id: "A4", answer: "Build more strength", isSelected: false)
                                                              ])
     
-    static var singleAnswerQuestionExample = TrainingPlannerQuestion(id: "SQ1", type: .singleAnswer, coachText: "Hi! I am Suunto Coach, Your personal AI Assistant. I will help you to develop a personalized training program for you.",
+    static var singleAnswerQuestionExample = TrainingQuestionWithAnswers(id: "SQ1", type: .singleAnswer, coachText: "Hi! I am Suunto Coach, Your personal AI Assistant. I will help you to develop a personalized training program for you.",
                                                                question: "Which is the day of your biggest effort?",
                                                                subtitle: "You can choose one (1)",
                                                                answers: [ PlannerAnswer(id: "A5", answer: "Monday", isSelected: false),
@@ -26,7 +26,7 @@ class TrainingPlannerData: ObservableObject {
                                                                           PlannerAnswer(id: "A10", answer: "Saturday", isSelected: false),
                                                                           PlannerAnswer(id: "A11", answer: "Sunday", isSelected: false),
                                                                         ])
-    static var singleAnswerQuestion2Example = TrainingPlannerQuestion(id: "SQ2", type: .singleAnswer, coachText: "Hi! I am Suunto Coach, Your personal AI Assistant. I will help you to develop a personalized training program for you.",
+    static var singleAnswerQuestion2Example = TrainingQuestionWithAnswers(id: "SQ2", type: .singleAnswer, coachText: "Hi! I am Suunto Coach, Your personal AI Assistant. I will help you to develop a personalized training program for you.",
                                                              question: "What is that you want to achieve?",
                                                              subtitle: "You can choose one (1)",
                                                              answers: [
@@ -36,7 +36,7 @@ class TrainingPlannerData: ObservableObject {
                                                                 PlannerAnswer(id: "A15", answer: "Enhance endurance", isSelected: false)
                                                              ])
     
-    static var multiAnswerQuestion2Example = TrainingPlannerQuestion(id: "MQ2", type: .multiAnswer, coachText: "Hi! I am Suunto Coach, Your personal AI Assistant. I will help you to develop a personalized training program for you.",
+    static var multiAnswerQuestion2Example = TrainingQuestionWithAnswers(id: "MQ2", type: .multiAnswer, coachText: "Hi! I am Suunto Coach, Your personal AI Assistant. I will help you to develop a personalized training program for you.",
                                                                      question: "Which days you want to train in a week?",
                                                                      subtitle: "You can choose multiple",
                                                                      answers: [ PlannerAnswer(id: "A5", answer: "Monday", isSelected: false),
@@ -48,38 +48,84 @@ class TrainingPlannerData: ObservableObject {
                                                                                 PlannerAnswer(id: "A11", answer: "Sunday", isSelected: false),
                                                                               ])
     
-//    static func trainingPlannerQuestionType(from questionType: TrainingPlannerQuestionType) -> any TrainingPlannerQuestion.Type {
-//        switch questionType {
-//        case .multiAnswer:
-//            return MultiAnswerQuestion.self
-//        case .singleAnswer:
-//            return SingleAnswerQuestion.self
-//        case .spinner:
-//            return SpinnerQuestion.self
-//        }
-//    }
+    static var dateQuestion1Example = PlannerDateQuestion(id: "DQ1", question: "Which is the date of the race?", range: Date().addingTimeInterval(-24*3600*30)...Date().addingTimeInterval(24*3600*30), selectedValue: Date())
+    
+    static var distanceQUestion1Example = PlannerDistanceQuestion(id: "DQ1", question: "What is the distance of the race?", subtitle: "Pick a value in km", range: 0...100, selectedValue: 0)
 }
 
-struct PlannerAnswer: Hashable {
+protocol TrainingPlannerEntry {
+    var id: String { get }
+    var coachText: String? { get }
+    var question: String { get }
+    var subtitle: String? { get }
+}
+
+struct PlannerAnswer: Hashable{
     let id: String
     var answer: String
     var isSelected : Bool
 }
 
 
-enum PlannerQuestionType {
+enum TrainingQuestionType {
     case multiAnswer
     case singleAnswer
 }
 
-struct TrainingPlannerQuestion: Identifiable {
-    var id: String
-    var type: PlannerQuestionType
-    var coachText: String?
-    var question: String
-    var subtitle: String?
-    var answers: [PlannerAnswer]
+class TrainingQuestionWithAnswers: TrainingPlannerEntry, Identifiable, ObservableObject  {
+    @Published var id: String
+    @Published var type: TrainingQuestionType
+    @Published var coachText: String?
+    @Published var question: String
+    @Published var subtitle: String?
+    @Published var answers: [PlannerAnswer]
     var idsSelected: [String] {
         answers.filter({$0.isSelected}).map{ $0.id}
     }
+    
+    init(id: String, type: TrainingQuestionType, coachText: String? = nil, question: String, subtitle: String? = nil, answers: [PlannerAnswer]) {
+        self.id = id
+        self.type = type
+        self.coachText = coachText
+        self.question = question
+        self.subtitle = subtitle
+        self.answers = answers
+    }
 }
+
+class PlannerDateQuestion: TrainingPlannerEntry, Identifiable, ObservableObject {
+    @Published var id: String
+    @Published var coachText: String?
+    @Published var question: String
+    @Published var subtitle: String?
+    @Published var range: ClosedRange<Date>
+    @Published var selectedValue: Date
+    
+    init(id: String, coachText: String? = nil, question: String, subtitle: String? = nil, range: ClosedRange<Date>, selectedValue: Date) {
+        self.id = id
+        self.coachText = coachText
+        self.question = question
+        self.subtitle = subtitle
+        self.range = range
+        self.selectedValue = selectedValue
+    }
+}
+
+class PlannerDistanceQuestion: TrainingPlannerEntry, Identifiable, ObservableObject {
+    @Published var id: String
+    @Published var coachText: String?
+    @Published var question: String
+    @Published var subtitle: String?
+    @Published var range: ClosedRange<Double>
+    @Published var selectedValue: Int
+    
+    init(id: String, coachText: String? = nil, question: String, subtitle: String? = nil, range: ClosedRange<Double>, selectedValue: Int) {
+        self.id = id
+        self.coachText = coachText
+        self.question = question
+        self.subtitle = subtitle
+        self.range = range
+        self.selectedValue = selectedValue
+    }
+}
+
