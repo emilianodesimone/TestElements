@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8217D4F92B679BCC00A1FF86 /* PlannerMultiAnswerPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8217D4F82B679BCC00A1FF86 /* PlannerMultiAnswerPage.swift */; };
+		820B622D2B723926005E6849 /* PlannerMultiAnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820B622C2B723926005E6849 /* PlannerMultiAnswerCell.swift */; };
+		820B622F2B723CD8005E6849 /* QuestionsProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820B622E2B723CD8005E6849 /* QuestionsProgressBar.swift */; };
+		8217D4F92B679BCC00A1FF86 /* PlannerQuestionPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8217D4F82B679BCC00A1FF86 /* PlannerQuestionPage.swift */; };
 		8217D4FB2B67B98D00A1FF86 /* PlannerSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8217D4FA2B67B98D00A1FF86 /* PlannerSliderView.swift */; };
 		8217D4FF2B6A419300A1FF86 /* TrainingPlannerModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8217D4FE2B6A419300A1FF86 /* TrainingPlannerModels.swift */; };
-		8217D5012B6A512800A1FF86 /* PlannerSingleAnswerPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8217D5002B6A512800A1FF86 /* PlannerSingleAnswerPage.swift */; };
+		8217D5012B6A512800A1FF86 /* PlannerSingleAnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8217D5002B6A512800A1FF86 /* PlannerSingleAnswerCell.swift */; };
 		8217D5032B6A643E00A1FF86 /* PlannerCoachView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8217D5022B6A643E00A1FF86 /* PlannerCoachView.swift */; };
 		8217D5052B73797B00A1FF86 /* PlannerDateQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8217D5042B73797B00A1FF86 /* PlannerDateQuestionView.swift */; };
 		82E0D08C2B63A49E00FF201B /* TestElementsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E0D08B2B63A49E00FF201B /* TestElementsApp.swift */; };
@@ -40,10 +42,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8217D4F82B679BCC00A1FF86 /* PlannerMultiAnswerPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerMultiAnswerPage.swift; sourceTree = "<group>"; };
+		820B622C2B723926005E6849 /* PlannerMultiAnswerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerMultiAnswerCell.swift; sourceTree = "<group>"; };
+		820B622E2B723CD8005E6849 /* QuestionsProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionsProgressBar.swift; sourceTree = "<group>"; };
+		8217D4F82B679BCC00A1FF86 /* PlannerQuestionPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerQuestionPage.swift; sourceTree = "<group>"; };
 		8217D4FA2B67B98D00A1FF86 /* PlannerSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerSliderView.swift; sourceTree = "<group>"; };
 		8217D4FE2B6A419300A1FF86 /* TrainingPlannerModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingPlannerModels.swift; sourceTree = "<group>"; };
-		8217D5002B6A512800A1FF86 /* PlannerSingleAnswerPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerSingleAnswerPage.swift; sourceTree = "<group>"; };
+		8217D5002B6A512800A1FF86 /* PlannerSingleAnswerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerSingleAnswerCell.swift; sourceTree = "<group>"; };
 		8217D5022B6A643E00A1FF86 /* PlannerCoachView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerCoachView.swift; sourceTree = "<group>"; };
 		8217D5042B73797B00A1FF86 /* PlannerDateQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerDateQuestionView.swift; sourceTree = "<group>"; };
 		82E0D0882B63A49E00FF201B /* TestElements.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestElements.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,9 +112,11 @@
 			children = (
 				82E0D08B2B63A49E00FF201B /* TestElementsApp.swift */,
 				82E0D08D2B63A49E00FF201B /* ContentView.swift */,
+				820B622E2B723CD8005E6849 /* QuestionsProgressBar.swift */,
 				8217D5022B6A643E00A1FF86 /* PlannerCoachView.swift */,
-				8217D4F82B679BCC00A1FF86 /* PlannerMultiAnswerPage.swift */,
-				8217D5002B6A512800A1FF86 /* PlannerSingleAnswerPage.swift */,
+				8217D4F82B679BCC00A1FF86 /* PlannerQuestionPage.swift */,
+				8217D5002B6A512800A1FF86 /* PlannerSingleAnswerCell.swift */,
+				820B622C2B723926005E6849 /* PlannerMultiAnswerCell.swift */,
 				8217D4FE2B6A419300A1FF86 /* TrainingPlannerModels.swift */,
 				8217D4FA2B67B98D00A1FF86 /* PlannerSliderView.swift */,
 				8217D5042B73797B00A1FF86 /* PlannerDateQuestionView.swift */,
@@ -276,11 +282,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				8217D4FB2B67B98D00A1FF86 /* PlannerSliderView.swift in Sources */,
-				8217D5012B6A512800A1FF86 /* PlannerSingleAnswerPage.swift in Sources */,
 				8217D5052B73797B00A1FF86 /* PlannerDateQuestionView.swift in Sources */,
+				8217D5012B6A512800A1FF86 /* PlannerSingleAnswerCell.swift in Sources */,
+				820B622D2B723926005E6849 /* PlannerMultiAnswerCell.swift in Sources */,
 				8217D5032B6A643E00A1FF86 /* PlannerCoachView.swift in Sources */,
-				8217D4F92B679BCC00A1FF86 /* PlannerMultiAnswerPage.swift in Sources */,
+				8217D4F92B679BCC00A1FF86 /* PlannerQuestionPage.swift in Sources */,
 				82E0D08E2B63A49E00FF201B /* ContentView.swift in Sources */,
+				820B622F2B723CD8005E6849 /* QuestionsProgressBar.swift in Sources */,
 				82E0D08C2B63A49E00FF201B /* TestElementsApp.swift in Sources */,
 				8217D4FF2B6A419300A1FF86 /* TrainingPlannerModels.swift in Sources */,
 			);
