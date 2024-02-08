@@ -56,20 +56,11 @@ struct ContentView: View {
     }
     
     var body: some View {
-        let thisPageQuestion: any TrainingPlannerQuestion = plannerData.questions[currentPageIndex]
+        
         VStack(alignment: .leading){
             QuestionsProgressBar(totalNumberOfQuestions: plannerData.questions.count, currentQuestion: currentPageIndex + 1, back: back)
             Group{
-                if thisPageQuestion is MultiAnswerQuestion {
-                    PlannerMultiAnswerPage(question: Binding(
-                        get: { plannerData.questions[currentPageIndex] as! MultiAnswerQuestion},
-                        set: { newQuestion in plannerData.questions[currentPageIndex] = newQuestion }))
-                }
-                if thisPageQuestion is SingleAnswerQuestion {
-                    PlannerSingleAnswerPage(question: Binding(
-                        get: { plannerData.questions[currentPageIndex] as! SingleAnswerQuestion},
-                        set: { newQuestion in plannerData.questions[currentPageIndex] = newQuestion }))
-                }
+                PlannerQuestionPage(page: currentPageIndex)
             }.id(currentPageIndex)
                 .transition(pageTransition)
                 .animation(.default, value: currentPageIndex)
@@ -91,71 +82,19 @@ struct ContentView: View {
                 Spacer()
                 VStack(alignment: .leading){
                     ForEach(plannerData.questions, id: \.id) { question in
-                        if question is MultiAnswerQuestion {
-                            let thisQuestion = question as! MultiAnswerQuestion
-                            Text("\(thisQuestion.id) answers: \(thisQuestion.idsSelected.joined(separator: ", "))")
-                        }
-                        if question is SingleAnswerQuestion {
-                            let thisQuestion = question as! SingleAnswerQuestion
-                            Text("\(thisQuestion.id) answer: \(thisQuestion.idSelected ?? "")")
-                        }
+                            Text("\(question.id) answers: \(question.idsSelected.joined(separator: ", "))")
                     }
-                }
+                }.font(.footnote)
                 .padding()
                 .overlay(RoundedRectangle(cornerRadius: 8).stroke(isDone ? .red : .black, lineWidth: 2))
-                
-                
-                
                 Spacer()
             }
             Spacer()
-        }
+        }.environmentObject(plannerData)
     }
 }
     
 
 #Preview {
     ContentView()
-}
-
-struct QuestionsProgressBar: View {
-    var totalNumberOfQuestions: Int
-    var currentQuestion: Int
-    var back: (() -> Void)?
-    
-    
-    var body: some View {
-        ZStack(alignment: .center){
-            GeometryReader{ proxy in
-                HStack(alignment: .center) {
-                    if let back {
-                        Button(action: back)
-                        {
-                            Image("icon-chevron-left")
-                                .foregroundColor(.blue)
-                                .padding()
-                                .contentShape(Rectangle())
-                        }
-                        .position(x: 0 , y: proxy.size.height / 2)
-                        .padding(.leading)
-                    }
-                }
-                ZStack(alignment: .leading){
-                    Capsule()
-                        .frame(width: 200, height: 4)
-                        .foregroundColor(.gray)
-                    Capsule()
-                        .frame(width: (200.0 * Double(currentQuestion))/(Double(totalNumberOfQuestions)), height: 4)
-                        .foregroundColor(.blue)
-                        
-                }.position(x: proxy.size.width / 2, y: proxy.size.height / 2)
-            }
-            HStack(alignment: .center){
-                Spacer()
-                Text( "\(currentQuestion)/\(totalNumberOfQuestions)")
-            }
-        }.frame(height: 40)
-        .padding()
-        
-    }
 }
