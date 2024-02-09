@@ -2,7 +2,7 @@ import SwiftUI
 
 
 struct PlannerSingleAnswerCell: View {
-    var answer: PlannerAnswer
+    @Binding var answer: PlannerAnswer
     
     var body: some View {
         HStack(alignment: .center){
@@ -11,26 +11,22 @@ struct PlannerSingleAnswerCell: View {
                     .font(.callout)
             }
             Spacer()
-            RadioButton(isSelected: answer.isSelected)
-        }
-        .padding()
-    }
-}
-
-
-struct RadioButton: View {
-    var isSelected: Bool
-
-    var body: some View {
-        ZStack {
-            Circle()
-                .stroke(isSelected ? .blue : .gray, lineWidth: 2)
-                .frame(width: 16, height: 16)
-            if isSelected {
+            ZStack {
                 Circle()
-                    .fill(Color.blue)
-                    .frame(width: 10, height: 10)
+                    .stroke(answer.isSelected ? .blue : .gray, lineWidth: 2)
+                    .frame(width: 16, height: 16)
+                if answer.isSelected {
+                    Circle()
+                        .fill(Color.blue)
+                        .frame(width: 10, height: 10)
+                }
             }
-        }
+        }.background(.white)
+//            .onTapGesture {
+//                withAnimation {
+//                    answer.isSelected.toggle()
+//                }
+//            }
+        .padding()
     }
 }

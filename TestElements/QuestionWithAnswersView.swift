@@ -2,21 +2,25 @@ import SwiftUI
 
 struct QuestionWithAnswersView: View {
     @Binding var questionWithAnswers: TrainingQuestionWithAnswers
+    @State var id = UUID()
     
     var body: some View {
-        ForEach(questionWithAnswers.answers.indices, id: \.self) { index in
+        ForEach(0 ..< questionWithAnswers.answers.count, id: \.self) { index in
             if questionWithAnswers.type == .multiAnswer {
                 PlannerMultiAnswerCell(answer: $questionWithAnswers.answers[index])
             } else if questionWithAnswers.type == .singleAnswer {
-                PlannerSingleAnswerCell(answer: questionWithAnswers.answers[index])
+                PlannerSingleAnswerCell(answer: $questionWithAnswers.answers[index])
                     .onTapGesture {
-                        for i in questionWithAnswers.answers.indices {
-                            questionWithAnswers.answers[i].isSelected = false
+                       let newAnswers = questionWithAnswers.answers.indices.reduce(into: [PlannerAnswer]()) { result, newIndex in
+                            let oldAnswer = questionWithAnswers.answers[newIndex]
+                           let newAnswer = PlannerAnswer(id: oldAnswer.id, answer: oldAnswer.answer, isSelected: oldAnswer.id == questionWithAnswers.answers[index].id)
+                           result.append(newAnswer)
                         }
-                        questionWithAnswers.answers[index].isSelected = true
-                    }
+                        questionWithAnswers = TrainingQuestionWithAnswers(id: questionWithAnswers.id, type: questionWithAnswers.type, coachText: questionWithAnswers.coachText, summaryDescription: questionWithAnswers.summaryDescription, question: questionWithAnswers.question, subtitle: questionWithAnswers.subtitle, answers: newAnswers)                    }
+                
             }
             Divider()
         }
+        
     }
 }

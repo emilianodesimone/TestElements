@@ -22,9 +22,9 @@ struct PlannerDateQuestionView: View {
     }
 }
 
-#Preview {
-    PlannerDateQuestionView(question: .constant(PlannerDateQuestion(id: "DQ1", question: "Which is the date of the race?", range: Date().addingTimeInterval(-24*3600*30)...Date().addingTimeInterval(24*3600*30), selectedValue: Date())))
-}
+//#Preview {
+//    PlannerDateQuestionView(question: .constant(PlannerDateQuestion(id: "DQ1", question: "Which is the date of the race?", range: Date().addingTimeInterval(-24*3600*30)...Date().addingTimeInterval(24*3600*30), selectedValue: Date())))
+//}
 
 struct PlannerDistanceQuestionView: View {
     @Binding var question: PlannerDistanceQuestion
@@ -51,6 +51,6 @@ struct PlannerDistanceQuestionView: View {
     }
 }
 
-#Preview {
-    PlannerDistanceQuestionView(question: .constant(PlannerDistanceQuestion(id: "DQ1", question: "Which is the distance the race?", range: 0...100, selectedValue: 0)))
-}
+//#Preview {
+//    PlannerDistanceQuestionView(question: .constant(PlannerDistanceQuestion(id: "DQ1", question: "Which is the distance the race?", range: 0...100, selectedValue: 0)))
+//}
