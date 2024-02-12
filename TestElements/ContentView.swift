@@ -66,6 +66,7 @@ struct ContentView: View {
                     Spacer()
                 }
             }.environmentObject(plannerData)
+                .navigationViewStyle(.stack)
         }
     }
 }
