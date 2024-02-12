@@ -2,9 +2,12 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var plannerData = TrainingPlannerData()
-    @State private var currentPageIndex: Int = 0
+    @State private var currentItemID: String?
     @State private var pageTransition: AnyTransition = .pushFromLeft
     @State private var showSummary: Bool = false
+    var currentPageIndex: Int {
+        plannerData.entries.firstIndex(where: { $0.id == currentItemID }) ?? 0
+    }
     
     private var done: (() -> Void)? {
         guard currentPageIndex < plannerData.entries.count else { return nil }
@@ -12,9 +15,8 @@ struct ContentView: View {
             return { showSummary = true }
         } else { return {
             pageTransition = .pushFromRight
-            
             withAnimation {
-                currentPageIndex = min(currentPageIndex + 1, plannerData.entries.count - 1)
+                self.currentItemID = plannerData.entries[currentPageIndex + 1].id
             }
             
         }
@@ -26,7 +28,7 @@ struct ContentView: View {
         return {
             pageTransition = .pushFromLeft
             withAnimation {
-                currentPageIndex = max(0, currentPageIndex - 1)
+                self.currentItemID = plannerData.entries[currentPageIndex - 1].id
             }
         }
     }
@@ -37,36 +39,38 @@ struct ContentView: View {
     }
     
     var body: some View {
-        NavigationView{
-            VStack(alignment: .leading){
-                NavigationLink(destination: TrainingPlannerSummaryView(shouldShow: $showSummary), isActive: $showSummary, label: {})
-                QuestionsProgressBar(totalNumberOfQuestions: plannerData.entries.count, currentQuestion: currentPageIndex + 1, back: back)
-                Group{
-                    PlannerEntryPage(page: currentPageIndex)
-                }.id(currentPageIndex)
-                    .transition(pageTransition)
-                    .animation(.default, value: currentPageIndex)
-                if let done {
-                    HStack{
-                        Spacer()
-                        Button(action: {done()}, label: {
-                            Text(doneText)
-                                .frame(width: 343, height: 48, alignment: .center)
-                                .background(.blue)
-                                .foregroundColor(.white)
-                                .clipShape(RoundedRectangle(cornerRadius: 6))
-                            
-                        })
-                        Spacer()
+        if let itemId = currentItemID ?? plannerData.entries.first?.id {
+            NavigationView{
+                VStack(alignment: .leading){
+                    NavigationLink(destination: TrainingPlannerSummaryView(shouldShow: $showSummary), isActive: $showSummary, label: {})
+                    QuestionsProgressBar(totalNumberOfQuestions: plannerData.entries.count, currentQuestion: currentPageIndex + 1, back: back)
+                    Group{
+                        PlannerEntryPage(id: itemId)
+                    }.id(currentPageIndex)
+                        .transition(pageTransition)
+                        .animation(.default, value: currentPageIndex)
+                    if let done {
+                        HStack{
+                            Spacer()
+                            Button(action: {done()}, label: {
+                                Text(doneText)
+                                    .frame(width: 343, height: 48, alignment: .center)
+                                    .background(.blue)
+                                    .foregroundColor(.white)
+                                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                                
+                            })
+                            Spacer()
+                        }
                     }
+                    Spacer()
                 }
-                Spacer()
-            }
-        }.environmentObject(plannerData)
+            }.environmentObject(plannerData)
+        }
     }
 }
     
 
-#Preview {
-    ContentView()
-}
+//#Preview {
+//    ContentView()
+//}

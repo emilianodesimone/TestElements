@@ -42,11 +42,15 @@ class TrainingPlannerData: ObservableObject {
     
     static var dateQuestion1Example = PlannerDateQuestion(id: "DQ1", summaryDescription: "Day of the race", question: "Which is the date of the race?", range: Date()...Date().addingTimeInterval(24*3600*100), selectedValue: Date())
 
-    static var distanceQUestion1Example = PlannerDistanceQuestion(id: "DQ2", summaryDescription: "Distance of the run", question: "What is the distance of the race?", subtitle: "Pick a value in km", range: 0...100, selectedValue: 0)
-    
     static var countQuestionExample = PlannerCountQuestion(id: "CQ1", summaryDescription: "Event duration in days", question: "How many days the event lasts?", maxCount: 1000, selectedCount: 0)
     
     static var durationQuestionExample = PlannerDurationQuestion(id: "Dur1", summaryDescription: "Duration of your training", question: "How long do you want to train", maxHours: 24, selectedMinutes: 0, selectedHours: 0)
+
+    static var distanceQUestion1Example = PlannerDistanceQuestion(id: "DQ2", summaryDescription: "Distance of the run", question: "What is the distance of the race?", subtitle: "Pick a value in km", range: 0...100, selectedValue: 0)
+    
+    func entry(withId id: String) -> TrainingPlannerEntry? {
+        entries.first(where: { $0.id == id })
+    }
 }
 
 protocol TrainingPlannerEntry {
