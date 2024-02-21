@@ -5,52 +5,56 @@ struct TrainingPlannerSummaryView: View {
     
     @State private var showFirework = false
     @Binding var shouldShow: Bool
+    @State private var showEdit: Bool = false
+    @State private var idToEdit: String = ""
     
     var body: some View {
-        ZStack{
-            ScrollView{
-                VStack(alignment: .leading){
-                    Text("You are almost there")
-                        .font(.headline.bold())
-                        .padding()
-                    Text("Congratulations! Please go through the answers and then you are able to generate a new program for you.")
-                        .font(.callout)
-                        .padding()
-                    Text("PROGRAM INFORMATION")
-                        .font(.headline.bold())
-                        .padding()
-                    
-                    ForEach(plannerData.entries.indices, id: \.self) { index in
-                        TrainingPlannerSummaryCell(entry: plannerData.entries[index])
-                        Divider()
+            ZStack{
+                NavigationLink(destination: PlannerEntryPage(id: idToEdit), isActive: $showEdit, label: {})
+                ScrollView{
+                    VStack(alignment: .leading){
+                        Text("You are almost there")
+                            .font(.headline.bold())
+                            .padding()
+                        Text("Congratulations! Please go through the answers and then you are able to generate a new program for you.")
+                            .font(.callout)
+                            .padding()
+                        Text("PROGRAM INFORMATION")
+                            .font(.headline.bold())
+                            .padding()
+                        
+                        ForEach(plannerData.entries.indices, id: \.self) { index in
+                            TrainingPlannerSummaryCell(entry: plannerData.entries[index],
+                                                       action: { showEdit = true
+                                idToEdit = plannerData.entries[index].id } )
+                            Divider()
+                        }
+                        HStack{
+                            Spacer()
+                            Button(action: { showFirework = true }, label: {
+                                Text("Generate the program")
+                                    .frame(width: 343, height: 48, alignment: .center)
+                                    .background(.blue)
+                                    .foregroundColor(.white)
+                                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                                
+                            })
+                            Spacer()
+                        }
+                        
                     }
-                    HStack{
-                        Spacer()
-                        Button(action: { showFirework = true }, label: {
-                            Text("Generate the program")
-                                .frame(width: 343, height: 48, alignment: .center)
-                                .background(.blue)
-                                .foregroundColor(.white)
-                                .clipShape(RoundedRectangle(cornerRadius: 6))
-                            
-                        })
-                        Spacer()
-                    }
-                    
+                }
+                if showFirework {
+                    FireworkEffectView()
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                withAnimation {
+                                    showFirework = false
+                                }
+                            }
+                        }
                 }
             }
-            if showFirework {
-                            FireworkEffectView()
-                                .onAppear {
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                        withAnimation {
-                                            showFirework = false
-                                        }
-                                    }
-                                }
-                        }
-        }
-        
     }
 }
 
@@ -102,17 +106,19 @@ struct FireworkEffectView: View {
 
 struct TrainingPlannerSummaryCell: View {
     var entry: TrainingPlannerEntry
+    var action: () -> ()
     
     var body: some View {
         HStack{
             VStack(alignment: .leading){
                 Text(entry.summaryDescription)
-                    .font(.callout)
+                    .font(.caption)
                 Text(summaryAnswerDescription(for: entry))
-                    .font(.headline.bold())
+                    .font(.headline)
+                    .foregroundColor(.cyan)
             }
             Spacer()
-            Button(action: {}, label: {
+            Button(action: action, label: {
                 Text("edit")
                     .foregroundColor(.blue)
             })
@@ -128,6 +134,10 @@ struct TrainingPlannerSummaryCell: View {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MMMM d, yyyy"
             return dateFormatter.string(from: entry.selectedValue)
+        } else if let entry = entry as? PlannerCountQuestion {
+            return "\(entry.selectedCount)"
+        } else if let entry = entry as? PlannerDurationQuestion {
+            return "\(entry.selectedHours)h : \(String(format: "%02d", entry.selectedMinutes))m"
         } else {
             return ""
         }

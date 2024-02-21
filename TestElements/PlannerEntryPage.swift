@@ -1,23 +1,23 @@
 import SwiftUI
 
 struct PlannerEntryPage: View {
-    var page: Int
+    var id: String
     @EnvironmentObject var plannerData: TrainingPlannerData
     
     var body: some View {
-        if page >= 0 && plannerData.entries.count > 0 && page < plannerData.entries.count {
+        if let currentEntry = plannerData.entry(withId: id) {
             ScrollView {
                 VStack(alignment: .leading) {
-                    if let coachText = plannerData.entries[page].coachText {
+                    if let coachText = currentEntry.coachText {
                         PlannerCoachView(text: coachText)
                     }
                     VStack(alignment: .leading, spacing: 0){
-                        Text(plannerData.entries[page].question)
+                        Text(currentEntry.question)
                             .font(.headline)
-                        if let subtitle = plannerData.entries[page].subtitle { Text(subtitle).font(.subheadline) }
+                        if let subtitle = currentEntry.subtitle { Text(subtitle).font(.subheadline) }
                         
                     }.padding()
-                    view(atPage: page)
+                    view(forId: id)
                     Spacer()
                 }
             }
@@ -25,23 +25,24 @@ struct PlannerEntryPage: View {
     }
     
     @ViewBuilder
-    func view(atPage page: Int) -> some View {
-        if plannerData.entries[page] is TrainingQuestionWithAnswers {
-            QuestionWithAnswersView(questionWithAnswers: binding(atPage: page, toType: TrainingQuestionWithAnswers.self))
-        } else if plannerData.entries[page] is PlannerDistanceQuestion {
-            PlannerDistanceQuestionView(question: binding(atPage: page, toType: PlannerDistanceQuestion.self))
-        } else if plannerData.entries[page] is PlannerDateQuestion {
-            PlannerDateQuestionView(question: binding(atPage: page, toType: PlannerDateQuestion.self))
-        } else if plannerData.entries[page] is PlannerDurationQuestion {
-            PlannerDurationQuestionView(question: binding(atPage: page, toType: PlannerDurationQuestion.self))
-        } else if plannerData.entries[page] is PlannerCountQuestion {
-            PlannerCountQuestionView(question: binding(atPage: page, toType: PlannerCountQuestion.self))
+    func view(forId id: String) -> some View {
+        if plannerData.entry(withId: id) is TrainingQuestionWithAnswers {
+            QuestionWithAnswersView(questionWithAnswers: binding(atId: id, toType: TrainingQuestionWithAnswers.self))
+        } else if plannerData.entry(withId: id) is PlannerDistanceQuestion {
+            PlannerDistanceQuestionView(question: binding(atId: id, toType: PlannerDistanceQuestion.self))
+        } else if plannerData.entry(withId: id) is PlannerDateQuestion {
+            PlannerDateQuestionView(question: binding(atId: id, toType: PlannerDateQuestion.self))
+        } else if plannerData.entry(withId: id) is PlannerDurationQuestion {
+            PlannerDurationQuestionView(question: binding(atId: id, toType: PlannerDurationQuestion.self))
+        } else if plannerData.entry(withId: id) is PlannerCountQuestion {
+            PlannerCountQuestionView(question: binding(atId: id, toType: PlannerCountQuestion.self))
         } else {
             EmptyView()
         }
     }
     
-    func binding<T>(atPage page: Int, toType type: T.Type) -> Binding<T> where T: TrainingPlannerEntry {
-        Binding<T>(get: { plannerData.entries[page] as! T}, set: { plannerData.entries[page] = $0 })
+    func binding<T>(atId id: String, toType type: T.Type) -> Binding<T> where T: TrainingPlannerEntry {
+        Binding<T>(get: { plannerData.entry(withId: id) as! T}, set: { entry in
+            if let index = plannerData.entries.firstIndex(where: { $0.id == entry.id }) { plannerData.entries[index] = entry} })
     }
 }
