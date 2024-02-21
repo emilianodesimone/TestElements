@@ -3,7 +3,8 @@ import SwiftUI
 
 class TrainingPlannerData: ObservableObject {
     
-    @Published var entries: [TrainingPlannerEntry] = [singleAnswerQuestionExample, singleAnswerQuestion2Example, multiAnswerQuestion2Example, dateQuestion1Example, distanceQUestion1Example]
+    @Published var entries: [TrainingPlannerEntry] = [singleAnswerQuestionExample, singleAnswerQuestion2Example, multiAnswerQuestion2Example, dateQuestion1Example, distanceQUestion1Example, countQuestionExample, durationQuestionExample]
+
     
     
     static var singleAnswerQuestionExample = TrainingQuestionWithAnswers(id: "SQ1", type: .singleAnswer, coachText: "Hi! I am Suunto Coach, Your personal AI Assistant. I will help you to develop a personalized training program for you.", summaryDescription: "Main Effort Day",
@@ -40,8 +41,12 @@ class TrainingPlannerData: ObservableObject {
                                                                               ])
     
     static var dateQuestion1Example = PlannerDateQuestion(id: "DQ1", summaryDescription: "Day of the race", question: "Which is the date of the race?", range: Date()...Date().addingTimeInterval(24*3600*100), selectedValue: Date())
+
+    static var distanceQUestion1Example = PlannerDistanceQuestion(id: "DQ2", summaryDescription: "Distance of the run", question: "What is the distance of the race?", subtitle: "Pick a value in km", range: 0...100, selectedValue: 0)
     
-    static var distanceQUestion1Example = PlannerDistanceQuestion(id: "DQ2", summaryDescription: "How long is the run", question: "What is the distance of the race?", subtitle: "Pick a value in km", range: 0...100, selectedValue: 0)
+    static var countQuestionExample = PlannerCountQuestion(id: "CQ1", summaryDescription: "Event duration in days", question: "How many days the event lasts?", maxCount: 1000, selectedCount: 0)
+    
+    static var durationQuestionExample = PlannerDurationQuestion(id: "Dur1", summaryDescription: "Duration of your training", question: "How long do you want to train", maxHours: 24, selectedMinutes: 0, selectedHours: 0)
 }
 
 protocol TrainingPlannerEntry {
@@ -108,13 +113,36 @@ class PlannerDateQuestion: TrainingPlannerEntry, Identifiable, ObservableObject 
     }
 }
 
+class PlannerDurationQuestion: TrainingPlannerEntry, Identifiable, ObservableObject {
+    @Published var id: String
+    @Published var coachText: String?
+    @Published var summaryDescription: String
+    @Published var question: String
+    @Published var subtitle: String?
+    @Published var maxHours: Int
+    @Published var selectedMinutes: Int
+    @Published var selectedHours: Int
+    
+    init(id: String, coachText: String? = nil, summaryDescription: String, question: String, subtitle: String? = nil, maxHours: Int, selectedMinutes: Int, selectedHours: Int) {
+        self.id = id
+        self.coachText = coachText
+        self.summaryDescription = summaryDescription
+        self.question = question
+        self.subtitle = subtitle
+        self.maxHours = maxHours
+        self.selectedMinutes = selectedMinutes
+        self.selectedHours = selectedHours
+        
+    }
+}
+
 class PlannerDistanceQuestion: TrainingPlannerEntry, Identifiable, ObservableObject {
     @Published var id: String
     @Published var coachText: String?
     @Published var summaryDescription: String
     @Published var question: String
     @Published var subtitle: String?
-    @Published var range: ClosedRange<Double>
+    @Published var range: ClosedRange<Double>§§
     @Published var selectedValue: Int
     
     init(id: String, coachText: String? = nil, summaryDescription: String, question: String, subtitle: String? = nil, range: ClosedRange<Double>, selectedValue: Int) {
@@ -128,3 +156,23 @@ class PlannerDistanceQuestion: TrainingPlannerEntry, Identifiable, ObservableObj
     }
 }
 
+class PlannerCountQuestion: TrainingPlannerEntry, Identifiable, ObservableObject {
+    @Published var id: String
+    @Published var coachText: String?
+    @Published var summaryDescription: String
+    @Published var question: String
+    @Published var subtitle: String?
+    @Published var maxCount: Int
+    @Published var selectedCount: Int
+    
+    init(id: String, coachText: String? = nil, summaryDescription: String, question: String, subtitle: String? = nil, maxCount: Int, selectedCount: Int) {
+        self.id = id
+        self.coachText = coachText
+        self.summaryDescription = summaryDescription
+        self.question = question
+        self.subtitle = subtitle
+        self.maxCount = maxCount
+        self.selectedCount = selectedCount
+        
+    }
+}

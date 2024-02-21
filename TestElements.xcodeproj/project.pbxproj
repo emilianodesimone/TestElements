@@ -25,6 +25,8 @@
 		82E0D0A72B63A49F00FF201B /* TestElementsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E0D0A62B63A49F00FF201B /* TestElementsUITests.swift */; };
 		82E0D0A92B63A49F00FF201B /* TestElementsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E0D0A82B63A49F00FF201B /* TestElementsUITestsLaunchTests.swift */; };
 		82F486F72B74D9B60009504B /* QuestionWithAnswersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F486F62B74D9B60009504B /* QuestionWithAnswersView.swift */; };
+		82F7E2362B8603360073E3C8 /* PlannerDurationQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F7E2352B8603360073E3C8 /* PlannerDurationQuestionView.swift */; };
+		82F7E2382B8618360073E3C8 /* PlannerCountQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F7E2372B8618360073E3C8 /* PlannerCountQuestionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +68,8 @@
 		82E0D0A62B63A49F00FF201B /* TestElementsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestElementsUITests.swift; sourceTree = "<group>"; };
 		82E0D0A82B63A49F00FF201B /* TestElementsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestElementsUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		82F486F62B74D9B60009504B /* QuestionWithAnswersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionWithAnswersView.swift; sourceTree = "<group>"; };
+		82F7E2352B8603360073E3C8 /* PlannerDurationQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerDurationQuestionView.swift; sourceTree = "<group>"; };
+		82F7E2372B8618360073E3C8 /* PlannerCountQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerCountQuestionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +129,8 @@
 				8217D5002B6A512800A1FF86 /* PlannerSingleAnswerCell.swift */,
 				820B622C2B723926005E6849 /* PlannerMultiAnswerCell.swift */,
 				8217D5042B73797B00A1FF86 /* PlannerDateQuestionView.swift */,
+				82F7E2352B8603360073E3C8 /* PlannerDurationQuestionView.swift */,
+				82F7E2372B8618360073E3C8 /* PlannerCountQuestionView.swift */,
 				8217D4FA2B67B98D00A1FF86 /* PlannerSliderView.swift */,
 				8217D5022B6A643E00A1FF86 /* PlannerCoachView.swift */,
 				8217D4FE2B6A419300A1FF86 /* TrainingPlannerModels.swift */,
@@ -293,6 +299,7 @@
 				8217D4FB2B67B98D00A1FF86 /* PlannerSliderView.swift in Sources */,
 				8217D5052B73797B00A1FF86 /* PlannerDateQuestionView.swift in Sources */,
 				8217D5012B6A512800A1FF86 /* PlannerSingleAnswerCell.swift in Sources */,
+				82F7E2382B8618360073E3C8 /* PlannerCountQuestionView.swift in Sources */,
 				820B622D2B723926005E6849 /* PlannerMultiAnswerCell.swift in Sources */,
 				8217D5032B6A643E00A1FF86 /* PlannerCoachView.swift in Sources */,
 				8217D5072B74C1C200A1FF86 /* TestElementsUtils.swift in Sources */,
@@ -303,6 +310,7 @@
 				82F486F72B74D9B60009504B /* QuestionWithAnswersView.swift in Sources */,
 				8217D4FF2B6A419300A1FF86 /* TrainingPlannerModels.swift in Sources */,
 				820B62312B7631B5005E6849 /* TrainingPlannerSummaryView.swift in Sources */,
+				82F7E2362B8603360073E3C8 /* PlannerDurationQuestionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
