@@ -146,7 +146,7 @@ class PlannerDistanceQuestion: TrainingPlannerEntry, Identifiable, ObservableObj
     @Published var summaryDescription: String
     @Published var question: String
     @Published var subtitle: String?
-    @Published var range: ClosedRange<Double>§§
+    @Published var range: ClosedRange<Double>
     @Published var selectedValue: Int
     
     init(id: String, coachText: String? = nil, summaryDescription: String, question: String, subtitle: String? = nil, range: ClosedRange<Double>, selectedValue: Int) {

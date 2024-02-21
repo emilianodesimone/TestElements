@@ -112,9 +112,10 @@ struct TrainingPlannerSummaryCell: View {
         HStack{
             VStack(alignment: .leading){
                 Text(entry.summaryDescription)
-                    .font(.callout)
+                    .font(.caption)
                 Text(summaryAnswerDescription(for: entry))
-                    .font(.headline.bold())
+                    .font(.headline)
+                    .foregroundColor(.cyan)
             }
             Spacer()
             Button(action: action, label: {
@@ -133,6 +134,10 @@ struct TrainingPlannerSummaryCell: View {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MMMM d, yyyy"
             return dateFormatter.string(from: entry.selectedValue)
+        } else if let entry = entry as? PlannerCountQuestion {
+            return "\(entry.selectedCount)"
+        } else if let entry = entry as? PlannerDurationQuestion {
+            return "\(entry.selectedHours)h : \(String(format: "%02d", entry.selectedMinutes))m"
         } else {
             return ""
         }

@@ -32,9 +32,9 @@ struct PlannerEntryPage: View {
             PlannerDistanceQuestionView(question: binding(atId: id, toType: PlannerDistanceQuestion.self))
         } else if plannerData.entry(withId: id) is PlannerDateQuestion {
             PlannerDateQuestionView(question: binding(atId: id, toType: PlannerDateQuestion.self))
-        } else if plannerData.entries[page] is PlannerDurationQuestion {
+        } else if plannerData.entry(withId: id) is PlannerDurationQuestion {
             PlannerDurationQuestionView(question: binding(atId: id, toType: PlannerDurationQuestion.self))
-        } else if plannerData.entries[page] is PlannerCountQuestion {
+        } else if plannerData.entry(withId: id) is PlannerCountQuestion {
             PlannerCountQuestionView(question: binding(atId: id, toType: PlannerCountQuestion.self))
         } else {
             EmptyView()
