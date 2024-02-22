@@ -129,7 +129,7 @@ struct TrainingPlannerSummaryCell: View {
         if let entry = entry as? TrainingQuestionWithAnswers {
             return entry.answers.filter{ $0.isSelected }.map{ $0.answer}.joined(separator: ", ")
         } else if let entry = entry as? PlannerDistanceQuestion {
-            return "\(entry.selectedValue) km"
+            return String(format: "%.1f km", Double(entry.selectedValueInMeters) / 1000.0)
         } else if let entry = entry as? PlannerDateQuestion {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MMMM d, yyyy"
@@ -143,8 +143,3 @@ struct TrainingPlannerSummaryCell: View {
         }
     }
 }
-
-
-//#Preview {
-//    TrainingPlannerSummaryView()
-//}

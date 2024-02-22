@@ -36,6 +36,8 @@ struct PlannerEntryPage: View {
             PlannerDurationQuestionView(question: binding(atId: id, toType: PlannerDurationQuestion.self))
         } else if plannerData.entry(withId: id) is PlannerCountQuestion {
             PlannerCountQuestionView(question: binding(atId: id, toType: PlannerCountQuestion.self))
+        } else if plannerData.entry(withId: id) is PlannerActivitiesSelection {
+            PlannerActivitiesQuestionView(plannerActivitiesSelection: binding(atId: id, toType: PlannerActivitiesSelection.self))
         } else {
             EmptyView()
         }
