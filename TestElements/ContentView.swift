@@ -6,7 +6,7 @@ struct ContentView: View {
     @State private var pageTransition: AnyTransition = .pushFromLeft
     @State private var showSummary: Bool = false
     var currentPageIndex: Int {
-        plannerData.entries.firstIndex(where: { $0.id == currentItemID }) ?? 0
+        plannerData.entries.firstIndex(where: { $0.entryId == currentItemID }) ?? 0
     }
     
     private var done: (() -> Void)? {
@@ -16,7 +16,7 @@ struct ContentView: View {
         } else { return {
             pageTransition = .pushFromRight
             withAnimation {
-                self.currentItemID = plannerData.entries[currentPageIndex + 1].id
+                self.currentItemID = plannerData.entries[currentPageIndex + 1].entryId
             }
             
         }
@@ -28,7 +28,7 @@ struct ContentView: View {
         return {
             pageTransition = .pushFromLeft
             withAnimation {
-                self.currentItemID = plannerData.entries[currentPageIndex - 1].id
+                self.currentItemID = plannerData.entries[currentPageIndex - 1].entryId
             }
         }
     }
@@ -39,7 +39,7 @@ struct ContentView: View {
     }
     
     var body: some View {
-        if let itemId = currentItemID ?? plannerData.entries.first?.id {
+        if let itemId = currentItemID ?? plannerData.entries.first?.entryId {
             NavigationView{
                 VStack(alignment: .leading){
                     NavigationLink(destination: TrainingPlannerSummaryView(shouldShow: $showSummary), isActive: $showSummary, label: {})

@@ -1,50 +1,9 @@
 import SwiftUI
 
-struct PlannerActivitiesQuestionView: View {
-    @Binding var plannerActivitiesSelection: PlannerActivitiesSelection
-    
-    @State private var showSelection = false
-    
-    var body: some View {
-        VStack(alignment: .leading){
-            HStack{
-                Button(action: {
-                            // Action for the button
-                            showSelection = true
-                        }) {
-                            Image(systemName: "plus") // System plus icon
-                                .resizable() // Make the image resizable
-                                .aspectRatio(contentMode: .fit) // Keep the aspect ratio
-                                .padding(10) // Add some padding inside the button
-                                .frame(width: 30, height: 30) // Size of the button
-                                .foregroundColor(.white) // Color of the plus icon
-                        }
-                        .background(Color.blue) // Button background color
-                        .clipShape(Circle())
-                        .padding()
-                Text("Add sports")
-                    .font(.callout.bold())
-                    .foregroundColor(.blue)
-                Spacer()
-            }
-            List(Array(plannerActivitiesSelection.selectedActivities)) { item in
-                ActivitySelectionCell(activityType: item)
-                    .id(item.rawValue)
-            }.listStyle(PlainListStyle())
-        }
-        .frame(height: 800)
-        .fullScreenCover(isPresented: $showSelection) {
-            PlannerActivitiesSelectionView(plannerActivitiesSelection: $plannerActivitiesSelection)
-        }
-    }
-    
-}
-
 struct PlannerActivitiesSelectionView: View {
     @Environment(\.presentationMode) var presentationMode
     
-    @Binding var plannerActivitiesSelection: PlannerActivitiesSelection
-    @State private var identifier = UUID()
+    @ObservedObject var plannerActivitiesSelection: PlannerActivitiesSelection
 
     var body: some View {
         ZStack{
@@ -55,22 +14,42 @@ struct PlannerActivitiesSelectionView: View {
                         Text("Select Sports")
                             .font(.callout.bold())
                             .padding()
-                        List(KnownActivityType.allValues) { item in
-                            ActivitySelectionCell(activityType: item)
-                                .id(item.rawValue)
-                                .onTapGesture {
-                                    if plannerActivitiesSelection.selectedActivities.contains(item) {
-                                        plannerActivitiesSelection.selectedActivities.remove(item)
-                                    } else {
-                                        plannerActivitiesSelection.selectedActivities.insert(item)
+                        ScrollView {
+                            LazyVStack{
+                                Section(header: CustomSectionHeader(title: "Popular")) {
+                                    ForEach(KnownActivityType.popular) { item in
+                                        ActivitySelectionCell(activityType: item, isSelected: plannerActivitiesSelection.selectedActivities.contains(item))
+                                            .id(item.rawValue)
+                                            .onTapGesture {
+                                                if plannerActivitiesSelection.selectedActivities.contains(item) {
+                                                    plannerActivitiesSelection.selectedActivities.removeAll(where: { $0 == item })
+                                                } else {
+                                                    plannerActivitiesSelection.selectedActivities.append(item)
+                                                }
+                                            }
+                                            .background(plannerActivitiesSelection.selectedActivities.contains(item) ? Color.black.opacity(0.3) : Color.white)
                                     }
-                                    identifier = UUID()
                                 }
-                                .listRowBackground(plannerActivitiesSelection.selectedActivities.contains(item) ? Color.black.opacity(0.5) : Color.white)
-                        }.listStyle(PlainListStyle())
-                        
-                        
+                                Section(header: CustomSectionHeader(title: "All")) {
+                                    ForEach(KnownActivityType.allValues) { item in
+                                        ActivitySelectionCell(activityType: item, isSelected: plannerActivitiesSelection.selectedActivities.contains(item))
+                                            .id(item.rawValue)
+                                            .onTapGesture {
+                                                if plannerActivitiesSelection.selectedActivities.contains(item) {
+                                                    plannerActivitiesSelection.selectedActivities.removeAll(where: { $0 == item })
+                                                } else {
+                                                    plannerActivitiesSelection.selectedActivities.append(item)
+                                                }
+                                            }
+                                            .background(plannerActivitiesSelection.selectedActivities.contains(item) ? Color.black.opacity(0.3) : Color.white)
+                                    }
+                                }
+                                
+                                
+                            }
+                        }
                     }.background(Color.white) // Background color for the VStack
+                        
                 }
                     .cornerRadius(10) // Rounded corners for the VStack
                     .padding()
@@ -91,22 +70,35 @@ struct PlannerActivitiesSelectionView: View {
     }
 }
 
+struct CustomSectionHeader: View {
+    var title: String
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(title)
+                .font(.headline)
+                .padding(.bottom, 5)
+            Divider()
+        }
+        .padding(.horizontal)
+    }
+}
+
 struct ActivitySelectionCell: View {
     var activityType: KnownActivityType
+    var isSelected: Bool
     
     var body: some View {
         HStack{
             activityType.icon
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .padding(10) // Add some padding inside the button
-                .frame(width: 30, height: 30) // Size of the button
-                .foregroundColor(.black)
-                .background(Color(red: Double(activityType.rawValue)/50.0, green: 1 - Double(activityType.rawValue)/50, blue: Double(activityType.rawValue)/50.0))
-                .clipShape(Circle())
+                .padding(10)
+                .frame(width: 40, height: 40)
             Text(activityType.identifier)
             Spacer()
         }
+        .foregroundColor(isSelected ? .blue : .black)
         .frame(height: 40)
         .contentShape(Rectangle()) //Makes sure the whole cell is tappable, even though it is transparent
         
@@ -116,5 +108,5 @@ struct ActivitySelectionCell: View {
 }
 
 #Preview {
-    PlannerActivitiesSelectionView(plannerActivitiesSelection: .constant(TrainingPlannerData.activitiesSelection1Example))
+    PlannerActivitiesSelectionView(plannerActivitiesSelection: TrainingPlannerData.activitiesSelection1Example)
 }

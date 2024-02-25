@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct PlannerDateQuestionView: View {
-    @Binding var question: PlannerDateQuestion
+    @ObservedObject var question: PlannerDateQuestion
     
     var body: some View {
         HStack{ Spacer()

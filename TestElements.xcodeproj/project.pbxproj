@@ -10,6 +10,7 @@
 		820B622D2B723926005E6849 /* PlannerMultiAnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820B622C2B723926005E6849 /* PlannerMultiAnswerCell.swift */; };
 		820B622F2B723CD8005E6849 /* QuestionsProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820B622E2B723CD8005E6849 /* QuestionsProgressBar.swift */; };
 		820B62312B7631B5005E6849 /* TrainingPlannerSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820B62302B7631B5005E6849 /* TrainingPlannerSummaryView.swift */; };
+		8214CD8A2B888737000D2C41 /* PlannerActivitiesQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8214CD892B888737000D2C41 /* PlannerActivitiesQuestionView.swift */; };
 		8217D4F92B679BCC00A1FF86 /* PlannerEntryPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8217D4F82B679BCC00A1FF86 /* PlannerEntryPage.swift */; };
 		8217D4FB2B67B98D00A1FF86 /* PlannerSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8217D4FA2B67B98D00A1FF86 /* PlannerSliderView.swift */; };
 		8217D4FF2B6A419300A1FF86 /* TrainingPlannerModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8217D4FE2B6A419300A1FF86 /* TrainingPlannerModels.swift */; };
@@ -52,6 +53,7 @@
 		820B622C2B723926005E6849 /* PlannerMultiAnswerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerMultiAnswerCell.swift; sourceTree = "<group>"; };
 		820B622E2B723CD8005E6849 /* QuestionsProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionsProgressBar.swift; sourceTree = "<group>"; };
 		820B62302B7631B5005E6849 /* TrainingPlannerSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingPlannerSummaryView.swift; sourceTree = "<group>"; };
+		8214CD892B888737000D2C41 /* PlannerActivitiesQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerActivitiesQuestionView.swift; sourceTree = "<group>"; };
 		8217D4F82B679BCC00A1FF86 /* PlannerEntryPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerEntryPage.swift; sourceTree = "<group>"; };
 		8217D4FA2B67B98D00A1FF86 /* PlannerSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerSliderView.swift; sourceTree = "<group>"; };
 		8217D4FE2B6A419300A1FF86 /* TrainingPlannerModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingPlannerModels.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 				82F7E2352B8603360073E3C8 /* PlannerDurationQuestionView.swift */,
 				82F7E2372B8618360073E3C8 /* PlannerCountQuestionView.swift */,
 				82AED1BC2B874622005F43A7 /* PlannerActivitiesSelectionView.swift */,
+				8214CD892B888737000D2C41 /* PlannerActivitiesQuestionView.swift */,
 				8217D4FA2B67B98D00A1FF86 /* PlannerSliderView.swift */,
 				8217D5022B6A643E00A1FF86 /* PlannerCoachView.swift */,
 				8217D4FE2B6A419300A1FF86 /* TrainingPlannerModels.swift */,
@@ -316,6 +319,7 @@
 				82E0D08C2B63A49E00FF201B /* TestElementsApp.swift in Sources */,
 				82F486F72B74D9B60009504B /* QuestionWithAnswersView.swift in Sources */,
 				8217D4FF2B6A419300A1FF86 /* TrainingPlannerModels.swift in Sources */,
+				8214CD8A2B888737000D2C41 /* PlannerActivitiesQuestionView.swift in Sources */,
 				820B62312B7631B5005E6849 /* TrainingPlannerSummaryView.swift in Sources */,
 				82AED1BB2B8628E5005F43A7 /* PlannerDistanceQuestionView.swift in Sources */,
 				82F7E2362B8603360073E3C8 /* PlannerDurationQuestionView.swift in Sources */,

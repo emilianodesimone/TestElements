@@ -48,15 +48,15 @@ class TrainingPlannerData: ObservableObject {
 
     static var distanceQUestion1Example = PlannerDistanceQuestion(id: "DQ2", summaryDescription: "Distance of the run", question: "What is the distance of the race?", subtitle: "Pick a value in km", maxDistanceInMeters: 100000, selectedValueInMeters: 0)
     
-    static var activitiesSelection1Example = PlannerActivitiesSelection(id: "AS1", summaryDescription: "Preferred activities", question: "Which activities do you prefer?", subtitle: "You can choose multiple", selectedActivities: Set<KnownActivityType>())
+    static var activitiesSelection1Example = PlannerActivitiesSelection(id: "AS1", summaryDescription: "Preferred activities", question: "Which activities do you prefer?", subtitle: "You can choose multiple", selectedActivities: Array<KnownActivityType>())
     
     func entry(withId id: String) -> TrainingPlannerEntry? {
-        entries.first(where: { $0.id == id })
+        entries.first(where: { $0.entryId == id })
     }
 }
 
 protocol TrainingPlannerEntry {
-    var id: String { get }
+    var entryId: String { get }
     var summaryDescription: String { get }
     var coachText: String? { get }
     var question: String { get }
@@ -76,7 +76,7 @@ enum TrainingQuestionType {
 }
 
 class TrainingQuestionWithAnswers: TrainingPlannerEntry, Identifiable, ObservableObject  {
-    @Published var id: String
+    @Published var entryId: String
     @Published var summaryDescription: String
     @Published var type: TrainingQuestionType
     @Published var coachText: String?
@@ -89,7 +89,7 @@ class TrainingQuestionWithAnswers: TrainingPlannerEntry, Identifiable, Observabl
     }
     
     init(id: String, type: TrainingQuestionType, coachText: String? = nil, summaryDescription: String, question: String, subtitle: String? = nil, answers: [PlannerAnswer]) {
-        self.id = id
+        self.entryId = id
         self.type = type
         self.coachText = coachText
         self.summaryDescription = summaryDescription
@@ -100,7 +100,7 @@ class TrainingQuestionWithAnswers: TrainingPlannerEntry, Identifiable, Observabl
 }
 
 class PlannerDateQuestion: TrainingPlannerEntry, Identifiable, ObservableObject {
-    @Published var id: String
+    @Published var entryId: String
     @Published var coachText: String?
     @Published var summaryDescription: String
     @Published var question: String
@@ -109,7 +109,7 @@ class PlannerDateQuestion: TrainingPlannerEntry, Identifiable, ObservableObject 
     @Published var selectedValue: Date
     
     init(id: String, coachText: String? = nil, summaryDescription: String, question: String, subtitle: String? = nil, range: ClosedRange<Date>, selectedValue: Date) {
-        self.id = id
+        self.entryId = id
         self.coachText = coachText
         self.summaryDescription = summaryDescription
         self.question = question
@@ -120,7 +120,7 @@ class PlannerDateQuestion: TrainingPlannerEntry, Identifiable, ObservableObject 
 }
 
 class PlannerDurationQuestion: TrainingPlannerEntry, Identifiable, ObservableObject {
-    @Published var id: String
+    @Published var entryId: String
     @Published var coachText: String?
     @Published var summaryDescription: String
     @Published var question: String
@@ -130,7 +130,7 @@ class PlannerDurationQuestion: TrainingPlannerEntry, Identifiable, ObservableObj
     @Published var selectedHours: Int
     
     init(id: String, coachText: String? = nil, summaryDescription: String, question: String, subtitle: String? = nil, maxHours: Int, selectedMinutes: Int, selectedHours: Int) {
-        self.id = id
+        self.entryId = id
         self.coachText = coachText
         self.summaryDescription = summaryDescription
         self.question = question
@@ -143,7 +143,7 @@ class PlannerDurationQuestion: TrainingPlannerEntry, Identifiable, ObservableObj
 }
 
 class PlannerDistanceQuestion: TrainingPlannerEntry, Identifiable, ObservableObject {
-    @Published var id: String
+    @Published var entryId: String
     @Published var coachText: String?
     @Published var summaryDescription: String
     @Published var question: String
@@ -152,7 +152,7 @@ class PlannerDistanceQuestion: TrainingPlannerEntry, Identifiable, ObservableObj
     @Published var selectedValueInMeters: Int
     
     init(id: String, coachText: String? = nil, summaryDescription: String, question: String, subtitle: String? = nil, maxDistanceInMeters: Int, selectedValueInMeters: Int) {
-        self.id = id
+        self.entryId = id
         self.coachText = coachText
         self.summaryDescription = summaryDescription
         self.question = question
@@ -163,7 +163,7 @@ class PlannerDistanceQuestion: TrainingPlannerEntry, Identifiable, ObservableObj
 }
 
 class PlannerCountQuestion: TrainingPlannerEntry, Identifiable, ObservableObject {
-    @Published var id: String
+    @Published var entryId: String
     @Published var coachText: String?
     @Published var summaryDescription: String
     @Published var question: String
@@ -172,7 +172,7 @@ class PlannerCountQuestion: TrainingPlannerEntry, Identifiable, ObservableObject
     @Published var selectedCount: Int
     
     init(id: String, coachText: String? = nil, summaryDescription: String, question: String, subtitle: String? = nil, maxCount: Int, selectedCount: Int) {
-        self.id = id
+        self.entryId = id
         self.coachText = coachText
         self.summaryDescription = summaryDescription
         self.question = question
@@ -184,15 +184,15 @@ class PlannerCountQuestion: TrainingPlannerEntry, Identifiable, ObservableObject
 }
 
 class PlannerActivitiesSelection: TrainingPlannerEntry, Identifiable, ObservableObject {
-    @Published var id: String
+    @Published var entryId: String
     @Published var coachText: String?
     @Published var summaryDescription: String
     @Published var question: String
     @Published var subtitle: String?
-    @Published var selectedActivities: Set<KnownActivityType>
+    @Published var selectedActivities: Array<KnownActivityType>
     
-    init(id: String, coachText: String? = nil, summaryDescription: String, question: String, subtitle: String? = nil, selectedActivities: Set<KnownActivityType>) {
-        self.id = id
+    init(id: String, coachText: String? = nil, summaryDescription: String, question: String, subtitle: String? = nil, selectedActivities: Array<KnownActivityType>) {
+        self.entryId = id
         self.coachText = coachText
         self.summaryDescription = summaryDescription
         self.question = question
@@ -200,10 +200,17 @@ class PlannerActivitiesSelection: TrainingPlannerEntry, Identifiable, Observable
         self.selectedActivities = selectedActivities
         
     }
+    
+    func remove(activity: KnownActivityType) {
+        objectWillChange.send()
+        var newActivities = selectedActivities
+        newActivities.removeAll(where: {$0 == activity})
+        selectedActivities = newActivities
+    }
 }
 
 
-enum KnownActivityType: Int, CaseIterable, Equatable, Identifiable {
+enum KnownActivityType: Int, CaseIterable, Equatable, Identifiable, Hashable {
     var id: Int { self.rawValue }
     
     case walking = 0,
@@ -311,7 +318,11 @@ enum KnownActivityType: Int, CaseIterable, Equatable, Identifiable {
     none = -1
     
     static var allValues: [KnownActivityType] = {
-        return (-1...35).compactMap { KnownActivityType(rawValue: $0) }
+        return (-1...35).compactMap { KnownActivityType(rawValue: $0) }.filter{!popular.contains($0)}
+    }()
+    
+    static var popular: [KnownActivityType] = {
+        return [.running, .trail_running, .cycling, .gym]
     }()
     
     var identifier: String {

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct PlannerDurationQuestionView: View {
-    @Binding var question: PlannerDurationQuestion
+    @ObservedObject var question: PlannerDurationQuestion
     
     var body: some View {
         HStack {
@@ -31,5 +31,5 @@ struct PlannerDurationQuestionView: View {
 }
 
 #Preview {
-    PlannerDurationQuestionView(question: .constant(PlannerDurationQuestion(id: "Dur1", summaryDescription: "Duration of your training", question: "How long do you want to train", maxHours: 24, selectedMinutes: 0, selectedHours: 0)))
+    PlannerDurationQuestionView(question: PlannerDurationQuestion(id: "Dur1", summaryDescription: "Duration of your training", question: "How long do you want to train", maxHours: 24, selectedMinutes: 0, selectedHours: 0))
 }

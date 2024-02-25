@@ -27,24 +27,24 @@ struct PlannerEntryPage: View {
     @ViewBuilder
     func view(forId id: String) -> some View {
         if plannerData.entry(withId: id) is TrainingQuestionWithAnswers {
-            QuestionWithAnswersView(questionWithAnswers: binding(atId: id, toType: TrainingQuestionWithAnswers.self))
+            QuestionWithAnswersView(questionWithAnswers: plannerData.entry(withId: id) as! TrainingQuestionWithAnswers)
         } else if plannerData.entry(withId: id) is PlannerDistanceQuestion {
-            PlannerDistanceQuestionView(question: binding(atId: id, toType: PlannerDistanceQuestion.self))
+            PlannerDistanceQuestionView(question: plannerData.entry(withId: id) as! PlannerDistanceQuestion)
         } else if plannerData.entry(withId: id) is PlannerDateQuestion {
-            PlannerDateQuestionView(question: binding(atId: id, toType: PlannerDateQuestion.self))
+            PlannerDateQuestionView(question: plannerData.entry(withId: id) as! PlannerDateQuestion)
         } else if plannerData.entry(withId: id) is PlannerDurationQuestion {
-            PlannerDurationQuestionView(question: binding(atId: id, toType: PlannerDurationQuestion.self))
+            PlannerDurationQuestionView(question: plannerData.entry(withId: id) as! PlannerDurationQuestion)
         } else if plannerData.entry(withId: id) is PlannerCountQuestion {
-            PlannerCountQuestionView(question: binding(atId: id, toType: PlannerCountQuestion.self))
+            PlannerCountQuestionView(question: plannerData.entry(withId: id) as! PlannerCountQuestion)
         } else if plannerData.entry(withId: id) is PlannerActivitiesSelection {
-            PlannerActivitiesQuestionView(plannerActivitiesSelection: binding(atId: id, toType: PlannerActivitiesSelection.self))
+                PlannerActivitiesQuestionView(plannerActivitiesSelection: plannerData.entry(withId: id) as! PlannerActivitiesSelection)
         } else {
             EmptyView()
         }
     }
     
-    func binding<T>(atId id: String, toType type: T.Type) -> Binding<T> where T: TrainingPlannerEntry {
-        Binding<T>(get: { plannerData.entry(withId: id) as! T}, set: { entry in
-            if let index = plannerData.entries.firstIndex(where: { $0.id == entry.id }) { plannerData.entries[index] = entry} })
-    }
+//    func binding<T>(atId id: String, toType type: T.Type) -> Binding<T> where T: TrainingPlannerEntry {
+//        Binding<T>(get: { plannerData.entry(withId: id) as! T}, set: { entry in
+//            if let index = plannerData.entries.firstIndex(where: { $0.entryId == entry.entryId }) { plannerData.entries[index] = entry} })
+//    }
 }

@@ -26,7 +26,7 @@ struct TrainingPlannerSummaryView: View {
                         ForEach(plannerData.entries.indices, id: \.self) { index in
                             TrainingPlannerSummaryCell(entry: plannerData.entries[index],
                                                        action: { showEdit = true
-                                idToEdit = plannerData.entries[index].id } )
+                                idToEdit = plannerData.entries[index].entryId } )
                             Divider()
                         }
                         HStack{
@@ -138,7 +138,9 @@ struct TrainingPlannerSummaryCell: View {
             return "\(entry.selectedCount)"
         } else if let entry = entry as? PlannerDurationQuestion {
             return "\(entry.selectedHours)h : \(String(format: "%02d", entry.selectedMinutes))m"
-        } else {
+        } else if let entry = entry as? PlannerActivitiesSelection {
+            return entry.selectedActivities.map{ $0.identifier }.joined(separator: ", ")
+        }else {
             return ""
         }
     }

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct PlannerDistanceQuestionView: View {
-    @Binding var question: PlannerDistanceQuestion
+    @ObservedObject var question: PlannerDistanceQuestion
     
         
     

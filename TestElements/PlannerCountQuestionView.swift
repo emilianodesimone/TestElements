@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct PlannerCountQuestionView: View {
-    @Binding var question: PlannerCountQuestion
+    @ObservedObject var question: PlannerCountQuestion
     
     var body: some View {
             Picker("Count", selection: $question.selectedCount) {
@@ -19,5 +19,5 @@ struct PlannerCountQuestionView: View {
 }
 
 #Preview {
-    PlannerCountQuestionView(question: .constant(PlannerCountQuestion(id: "CQ1", summaryDescription: "Event duration in days", question: "How many days the event lasts?", maxCount: 1000, selectedCount: 0)))
+    PlannerCountQuestionView(question: PlannerCountQuestion(id: "CQ1", summaryDescription: "Event duration in days", question: "How many days the event lasts?", maxCount: 1000, selectedCount: 0))
 }
