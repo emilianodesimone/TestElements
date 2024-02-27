@@ -7,7 +7,7 @@ struct PlannerActivitiesSelectionView: View {
 
     var body: some View {
         ZStack{
-            Color.gray
+            Color.gray.ignoresSafeArea()
             VStack{
                 Group{
                     VStack{
@@ -15,44 +15,14 @@ struct PlannerActivitiesSelectionView: View {
                             .font(.callout.bold())
                             .padding()
                         ScrollView {
-                            LazyVStack{
-                                Section(header: CustomSectionHeader(title: "Popular")) {
-                                    ForEach(KnownActivityType.popular) { item in
-                                        ActivitySelectionCell(activityType: item, isSelected: plannerActivitiesSelection.selectedActivities.contains(item))
-                                            .id(item.rawValue)
-                                            .onTapGesture {
-                                                if plannerActivitiesSelection.selectedActivities.contains(item) {
-                                                    plannerActivitiesSelection.selectedActivities.removeAll(where: { $0 == item })
-                                                } else {
-                                                    plannerActivitiesSelection.selectedActivities.append(item)
-                                                }
-                                            }
-                                            .background(plannerActivitiesSelection.selectedActivities.contains(item) ? Color.black.opacity(0.3) : Color.white)
-                                    }
-                                }
-                                Section(header: CustomSectionHeader(title: "All")) {
-                                    ForEach(KnownActivityType.allValues) { item in
-                                        ActivitySelectionCell(activityType: item, isSelected: plannerActivitiesSelection.selectedActivities.contains(item))
-                                            .id(item.rawValue)
-                                            .onTapGesture {
-                                                if plannerActivitiesSelection.selectedActivities.contains(item) {
-                                                    plannerActivitiesSelection.selectedActivities.removeAll(where: { $0 == item })
-                                                } else {
-                                                    plannerActivitiesSelection.selectedActivities.append(item)
-                                                }
-                                            }
-                                            .background(plannerActivitiesSelection.selectedActivities.contains(item) ? Color.black.opacity(0.3) : Color.white)
-                                    }
-                                }
-                                
-                                
+                            LazyVStack(spacing: 0){
+                                ActivitySelectionSection(plannerActivitiesSelection: plannerActivitiesSelection, activities: KnownActivityType.popular, title: "popular")
+                                ActivitySelectionSection(plannerActivitiesSelection: plannerActivitiesSelection, activities: KnownActivityType.allValues, title: "All")
                             }
                         }
-                    }.background(Color.white) // Background color for the VStack
+                    }.background(Color.white)
                         
-                }
-                    .cornerRadius(10) // Rounded corners for the VStack
-                    .padding()
+                }.cornerRadius(10)
                 Spacer()
                 Button {
                     presentationMode.wrappedValue.dismiss()
@@ -63,10 +33,34 @@ struct PlannerActivitiesSelectionView: View {
                         .background(.white)
                         .clipShape(Rectangle())
                         .cornerRadius(10)
-                }.padding()
-            }
+                }
+            }.padding()
         }
            
+    }
+}
+
+struct ActivitySelectionSection: View {
+    @ObservedObject var plannerActivitiesSelection: PlannerActivitiesSelection
+    var activities: [KnownActivityType]
+    var title: String
+    
+    var body: some View {
+        Section(header: CustomSectionHeader(title: title)) {
+            ForEach(activities) { item in
+                ActivitySelectionCell(activityType: item, isSelected: plannerActivitiesSelection.selectedActivities.contains(item))
+                    .id(item.rawValue)
+                    .onTapGesture {
+                        if plannerActivitiesSelection.selectedActivities.contains(item) {
+                            plannerActivitiesSelection.selectedActivities.removeAll(where: { $0 == item })
+                        } else {
+                            plannerActivitiesSelection.selectedActivities.append(item)
+                        }
+                    }
+                    .frame(height: 60)
+                    .background(plannerActivitiesSelection.selectedActivities.contains(item) ? Color.black.opacity(0.3) : Color.white)
+            }
+        }
     }
 }
 
