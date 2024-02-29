@@ -76,12 +76,12 @@ enum TrainingQuestionType {
 }
 
 class TrainingQuestionWithAnswers: TrainingPlannerEntry, Identifiable, ObservableObject  {
-    @Published var entryId: String
-    @Published var summaryDescription: String
-    @Published var type: TrainingQuestionType
-    @Published var coachText: String?
-    @Published var question: String
-    @Published var subtitle: String?
+    var entryId: String
+    var summaryDescription: String
+    var type: TrainingQuestionType
+    var coachText: String?
+    var question: String
+    var subtitle: String?
     @Published var answers: [PlannerAnswer]
     
     var idsSelected: [String] {
@@ -100,12 +100,12 @@ class TrainingQuestionWithAnswers: TrainingPlannerEntry, Identifiable, Observabl
 }
 
 class PlannerDateQuestion: TrainingPlannerEntry, Identifiable, ObservableObject {
-    @Published var entryId: String
-    @Published var coachText: String?
-    @Published var summaryDescription: String
-    @Published var question: String
-    @Published var subtitle: String?
-    @Published var range: ClosedRange<Date>
+    var entryId: String
+    var coachText: String?
+    var summaryDescription: String
+    var question: String
+    var subtitle: String?
+    var range: ClosedRange<Date>
     @Published var selectedValue: Date
     
     init(id: String, coachText: String? = nil, summaryDescription: String, question: String, subtitle: String? = nil, range: ClosedRange<Date>, selectedValue: Date) {
@@ -120,12 +120,12 @@ class PlannerDateQuestion: TrainingPlannerEntry, Identifiable, ObservableObject 
 }
 
 class PlannerDurationQuestion: TrainingPlannerEntry, Identifiable, ObservableObject {
-    @Published var entryId: String
-    @Published var coachText: String?
-    @Published var summaryDescription: String
-    @Published var question: String
-    @Published var subtitle: String?
-    @Published var maxHours: Int
+    var entryId: String
+    var coachText: String?
+    var summaryDescription: String
+    var question: String
+    var subtitle: String?
+    var maxHours: Int
     @Published var selectedMinutes: Int
     @Published var selectedHours: Int
     
@@ -143,12 +143,12 @@ class PlannerDurationQuestion: TrainingPlannerEntry, Identifiable, ObservableObj
 }
 
 class PlannerDistanceQuestion: TrainingPlannerEntry, Identifiable, ObservableObject {
-    @Published var entryId: String
-    @Published var coachText: String?
-    @Published var summaryDescription: String
-    @Published var question: String
-    @Published var subtitle: String?
-    @Published var maxDistanceInMeters: Int
+    var entryId: String
+    var coachText: String?
+    var summaryDescription: String
+    var question: String
+    var subtitle: String?
+    var maxDistanceInMeters: Int
     @Published var selectedValueInMeters: Int
     
     init(id: String, coachText: String? = nil, summaryDescription: String, question: String, subtitle: String? = nil, maxDistanceInMeters: Int, selectedValueInMeters: Int) {
@@ -163,12 +163,12 @@ class PlannerDistanceQuestion: TrainingPlannerEntry, Identifiable, ObservableObj
 }
 
 class PlannerCountQuestion: TrainingPlannerEntry, Identifiable, ObservableObject {
-    @Published var entryId: String
-    @Published var coachText: String?
-    @Published var summaryDescription: String
-    @Published var question: String
-    @Published var subtitle: String?
-    @Published var maxCount: Int
+     var entryId: String
+     var coachText: String?
+     var summaryDescription: String
+     var question: String
+     var subtitle: String?
+     var maxCount: Int
     @Published var selectedCount: Int
     
     init(id: String, coachText: String? = nil, summaryDescription: String, question: String, subtitle: String? = nil, maxCount: Int, selectedCount: Int) {
@@ -184,11 +184,11 @@ class PlannerCountQuestion: TrainingPlannerEntry, Identifiable, ObservableObject
 }
 
 class PlannerActivitiesSelection: TrainingPlannerEntry, Identifiable, ObservableObject {
-    @Published var entryId: String
-    @Published var coachText: String?
-    @Published var summaryDescription: String
-    @Published var question: String
-    @Published var subtitle: String?
+    var entryId: String
+    var coachText: String?
+    var summaryDescription: String
+    var question: String
+    var subtitle: String?
     @Published var selectedActivities: Array<KnownActivityType>
     
     init(id: String, coachText: String? = nil, summaryDescription: String, question: String, subtitle: String? = nil, selectedActivities: Array<KnownActivityType>) {

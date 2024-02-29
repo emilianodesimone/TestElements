@@ -1,10 +1,11 @@
 import SwiftUI
 
-struct ContentView: View {
+struct TrainingPlannerMainView: View {
     @StateObject var plannerData = TrainingPlannerData()
     @State private var currentItemID: String?
     @State private var pageTransition: AnyTransition = .pushFromLeft
     @State private var showSummary: Bool = false
+    @State private var showCancel: Bool = false
     var currentPageIndex: Int {
         plannerData.entries.firstIndex(where: { $0.entryId == currentItemID }) ?? 0
     }
@@ -35,7 +36,7 @@ struct ContentView: View {
     
     private var doneText: String {
         guard currentPageIndex < plannerData.entries.count else { return "" }
-        return currentPageIndex < plannerData.entries.count - 1 ? "Continue" : "Done"
+        return currentPageIndex < plannerData.entries.count - 1 ? "CONTINUE" : "DONE"
     }
     
     var body: some View {
@@ -52,21 +53,38 @@ struct ContentView: View {
                     if let done {
                         HStack{
                             Spacer()
-                            Button(action: {done()}, label: {
-                                Text(doneText)
-                                    .frame(width: 343, height: 48, alignment: .center)
-                                    .background(.blue)
-                                    .foregroundColor(.white)
-                                    .clipShape(RoundedRectangle(cornerRadius: 6))
-                                
-                            })
+                            VStack{
+                                Button(action: {done()}, label: {
+                                    Text(doneText)
+                                        .font(.callout.bold())
+                                        .frame(width: 343, height: 48, alignment: .center)
+                                        .background(.blue)
+                                        .foregroundColor(.white)
+                                        .clipShape(RoundedRectangle(cornerRadius: 6))
+                                    
+                                })
+                                Button(action: { showCancel = true }, label: {
+                                    Text("CANCEL")
+                                        .font(.callout.bold())
+                                        .frame(width: 343, height: 48, alignment: .center)
+                                        .background(.white)
+                                        .foregroundColor(.blue)
+                                        .clipShape(RoundedRectangle(cornerRadius: 6))
+                                    
+                                })
+                            }
                             Spacer()
                         }
                     }
                     Spacer()
                 }
+                
             }.environmentObject(plannerData)
                 .navigationViewStyle(.stack)
+                .fullScreenCover(isPresented: $showCancel) {
+                    PlannerCancelView()
+                }
+            
         }
     }
 }
